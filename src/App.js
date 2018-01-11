@@ -4,6 +4,7 @@ import * as firebase from 'firebase';
 import logo from './logo.svg';
 import './App.css';
 import RoomList from './components/RoomList';
+import MessageList from './component/MessageList';
 
 
 
@@ -32,7 +33,8 @@ class App extends Component {
           <h1 className="App-title">Bloc Chat!</h1>
         </header>
         <main>
-          <RoomList firebase={this.state.firebase} />
+          <RoomList firebase={this.state.firebase} />\
+          <MessageList firebase={this.state.firebase} />
         </main>
       </div>
     );
