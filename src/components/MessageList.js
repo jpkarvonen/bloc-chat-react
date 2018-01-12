@@ -1,18 +1,17 @@
-import React, { Component } from 'react';
+/*import React, { Component } from 'react';
 
 class RoomList extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-
+      messages: []
     };
 
     this.roomsRef = this.props.firebase.database().ref('rooms');
 
   }
 
-  /*
   componentDidMount() {
     this.roomsRef.on('child_added', snapshot => {
       const room = snapshot.val();
@@ -20,20 +19,8 @@ class RoomList extends Component {
       this.setState({ rooms: this.state.rooms.concat( room ) })
     });
   }
-  */
 
-  /*
-  handleSubmit(e) {
-    e.preventDefault();
-    this.roomsRef.push({ name: this.state.newRoomName });
-  }
-  */
 
-  /*
-  handleChange(e) {
-    this.setState( {newRoomName: e.target.value })
-  }
-  */
 
   render() {
     return (
