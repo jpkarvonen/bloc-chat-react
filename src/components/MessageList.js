@@ -14,6 +14,7 @@ class MessageList extends Component {
 
   componentDidMount() {
     this.messagesRef.on('child_added', snapshot => {
+      console.log(snapshot.val());
       const message = snapshot.val();
       message.key = snapshot.key;
       this.setState({ messages: this.state.messages.concat( message ) })
@@ -28,7 +29,6 @@ class MessageList extends Component {
       <h1>Messages</h1>
       <table className="message-list">
         <colgroup>
-
           <col id="message-number-col"/>
           <col id="message-username-col"/>
           <col id="message-content-col"/>
