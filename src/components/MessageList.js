@@ -5,20 +5,22 @@ class MessageList extends Component {
     super(props);
 
     this.state = {
-      messages: []
+      messages: [],
     };
 
     this.messagesRef = this.props.firebase.database().ref('messages');
 
+
   }
 
-  componentDidMount() {
-    this.messagesRef.on('child_added', snapshot => {
-      console.log(snapshot.val());
-      const message = snapshot.val();
-      message.key = snapshot.key;
-      this.setState({ messages: this.state.messages.concat( message ) })
-    });
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.activeRoomKey !== this.props.activeRoomKey) {
+      this.messagesRef.orderByChild("roomId").equalTo(this.props.activeRoomKey).on('child_added', snapshot => {
+        const message = snapshot.val();
+        message.key = snapshot.key;
+        this.setState({ messages: this.state.messages.concat( message ) })
+      });
+    }
   }
 
 
@@ -26,7 +28,7 @@ class MessageList extends Component {
   render() {
     return (
     <div>
-      <h1>Messages</h1>
+      <h2>Messages</h2>
       <table className="message-list">
         <colgroup>
           <col id="message-number-col"/>

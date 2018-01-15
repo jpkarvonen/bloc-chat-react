@@ -26,11 +26,14 @@ class App extends Component {
      super(props);
      this.state = {
        firebase: firebase.initializeApp(config),
-       activeRoom: '',
-
+       activeRoomKey: '-L2bGVV669fvpgdVpTA-',
+       activeRoomName:''
      };
+   }
 
-
+   handleRoomChange(room) {
+     this.setState({activeRoomKey: room.key})
+     this.setState({activeRoomName: room.name})
    }
 
   render() {
@@ -38,10 +41,18 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Bloc Chat!</h1>
+          <h2 className="Active-Room">You are chatting in: {this.state.activeRoomName}</h2>
         </header>
         <main>
-          <MessageList firebase={this.state.firebase} activeRoom={this.state.firebase} />
-          <RoomList firebase={this.state.firebase} activeRoom={this.state.firebase}/>
+          <MessageList
+            firebase={this.state.firebase}
+            activeRoomKey={this.state.activeRoomKey}
+          />
+          <RoomList
+            firebase={this.state.firebase}
+            activeRoomKey={this.state.activeRoomKey}
+            onRoomChange={(room) => this.handleRoomChange(room)}
+          />
         </main>
       </div>
     );

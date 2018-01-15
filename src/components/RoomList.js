@@ -6,7 +6,7 @@ class RoomList extends Component {
 
     this.state = {
       rooms: [],
-      newRoomName: ''
+      newRoomName: '',
     };
 
     this.roomsRef = this.props.firebase.database().ref('rooms');
@@ -31,19 +31,25 @@ class RoomList extends Component {
     this.setState( {newRoomName: e.target.value })
   }
 
+  handleRoomClick(room) {
+    this.props.onRoomChange(room)
+  }
+
   render() {
     return (
     <div>
-      <table className="chat-list">
+      <table className="room-list">
         <colgroup>
-          <col id="chat-number-col"/>
-          <col id="chat-name-col"/>
+          <col id="room-number-col"/>
+          <col id="room-name-col"/>
         </colgroup>
         <tbody>
-          {this.state.rooms.map( (chat, index) =>
-            <tr className="chat">
-              <td className="chat-number">{index + 1}</td>
-              <td className="chat-name">{chat.name}</td>
+          {this.state.rooms.map( (room, index) =>
+            <tr className="room" onClick ={(e) => this.handleRoomClick(room)}>
+              <td className="room-number">{index + 1}</td>
+              <button>
+                <td className="room-name">{room.name}</td>
+              </button>
             </tr>
           )}
         </tbody>
