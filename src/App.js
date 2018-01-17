@@ -5,6 +5,8 @@ import logo from './logo.svg';
 import './App.css';
 import RoomList from './components/RoomList';
 import MessageList from './components/MessageList';
+import User from './components/User';
+
 
 
 
@@ -53,6 +55,9 @@ class App extends Component {
             firebase={this.state.firebase}
             activeRoomKey={this.state.activeRoomKey}
             onRoomChange={(room) => this.handleRoomChange(room)}
+          />
+          <User
+            firebase={this.state.firebase}
           />
         </main>
       </div>
