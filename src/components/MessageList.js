@@ -14,15 +14,16 @@ class MessageList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+
     if (nextProps.activeRoomKey !== this.props.activeRoomKey) {
-      this.messagesRef.orderByChild("roomId").equalTo(this.props.activeRoomKey).on('child_added', snapshot => {
+      this.messagesRef.orderByChild("roomId").equalTo(nextProps.activeRoomKey).on('child_added', snapshot => {
         const message = snapshot.val();
         message.key = snapshot.key;
-        this.setState({ messages: this.state.messages.concat( message ) })
+        if (message === null) {return (this.setState({ messages: [] })) }
+        this.setState({ messages:[ message ] });
       });
     }
   }
-
 
 
   render() {
@@ -38,9 +39,9 @@ class MessageList extends Component {
         <tbody>
           {this.state.messages.map( (message, index) =>
             <tr className="message">
-              <td className="message-number">{index + 1}</td>
-              <td className="messageusername">UserName</td>
+              <td className="messageusername">{message.username}: </td>
               <td className="message-content">{message.content}</td>
+              <td className="time-stamp">{message.sentAt}</td>
             </tr>
           )}
         </tbody>

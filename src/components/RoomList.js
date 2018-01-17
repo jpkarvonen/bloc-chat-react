@@ -31,6 +31,7 @@ class RoomList extends Component {
     this.setState( {newRoomName: e.target.value })
   }
 
+  // Lifting State
   handleRoomClick(room) {
     this.props.onRoomChange(room)
   }

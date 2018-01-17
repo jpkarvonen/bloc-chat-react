@@ -26,10 +26,11 @@ class App extends Component {
      super(props);
      this.state = {
        firebase: firebase.initializeApp(config),
-       activeRoomKey: '-L2bGVV669fvpgdVpTA-',
+       activeRoomKey: '',
        activeRoomName:''
      };
    }
+
 
    handleRoomChange(room) {
      this.setState({activeRoomKey: room.key})
