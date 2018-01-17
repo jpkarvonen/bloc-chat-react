@@ -6,6 +6,7 @@ class MessageList extends Component {
 
     this.state = {
       messages: [],
+      displayedMessages: []
     };
 
     this.messagesRef = this.props.firebase.database().ref('messages');
@@ -13,18 +14,20 @@ class MessageList extends Component {
 
   }
 
+  componentDidMount() {
+    this.messagesRef.on('child_added', snapshot => {
+      const message = snapshot.val();
+      message.key = snapshot.key;
+      this.setState({ messages: this.state.messages.concat( message ) })
+    });
+  }
+
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.activeRoomKey !== this.props.activeRoomKey) {
-      this.messagesRef.orderByChild("roomId").equalTo(nextProps.activeRoomKey).on('child_added', snapshot => {
-        const message = snapshot.val();
-        message.key = snapshot.key;
-        console.log(snapshot.child("roomId"))
-        console.log(nextProps.activeRoomKey)
-        if (snapshot.child("roomId") !== nextProps.activeRoomKey) {return (this.setState({ messages: [] })) }
-        this.setState({ messages:[ message ] });
-      });
+      this.setState({displayedMessages: this.state.messages.filter(message => (message.roomId === nextProps.activeRoomKey))})
+      }
     }
-  }
 
 
   render() {
@@ -38,7 +41,7 @@ class MessageList extends Component {
           <col id="message-content-col"/>
         </colgroup>
         <tbody>
-          {this.state.messages.map( (message, index) =>
+          {this.state.displayedMessages.map( (message, index) =>
             <tr className="message">
               <td className="messageusername">{message.username}: </td>
               <td className="message-content">{message.content}</td>
