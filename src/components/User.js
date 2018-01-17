@@ -7,9 +7,8 @@ class User extends Component {
   }
 
 
-  handleSignInClick = () => {
-    console.log()
-    const provider = new this.props.firebase.auth.GoogleAuthProvider();
+  handleSignInClick() {
+    const provider = this.props.authenticator
     this.props.firebase.auth().signInWithPopup( provider );
   }
 

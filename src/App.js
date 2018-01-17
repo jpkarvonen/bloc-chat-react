@@ -29,7 +29,8 @@ class App extends Component {
      this.state = {
        firebase: firebase.initializeApp(config),
        activeRoomKey: '',
-       activeRoomName:''
+       activeRoomName:'',
+       authenticator: new firebase.auth.GoogleAuthProvider()
      };
    }
 
@@ -58,6 +59,7 @@ class App extends Component {
           />
           <User
             firebase={this.state.firebase}
+            authenticator={this.state.authenticator}
           />
         </main>
       </div>
