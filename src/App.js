@@ -30,7 +30,8 @@ class App extends Component {
        firebase: firebase.initializeApp(config),
        activeRoomKey: '',
        activeRoomName:'',
-       authenticator: new firebase.auth.GoogleAuthProvider()
+       authenticator: new firebase.auth.GoogleAuthProvider(),
+       userInfo: []
      };
    }
 
@@ -38,6 +39,10 @@ class App extends Component {
    handleRoomChange(room) {
      this.setState({activeRoomKey: room.key})
      this.setState({activeRoomName: room.name})
+   }
+
+   setUser(user) {
+     this.setState({userInfo: user})
    }
 
   render() {
