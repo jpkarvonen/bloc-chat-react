@@ -14,12 +14,13 @@ class MessageList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-
     if (nextProps.activeRoomKey !== this.props.activeRoomKey) {
       this.messagesRef.orderByChild("roomId").equalTo(nextProps.activeRoomKey).on('child_added', snapshot => {
         const message = snapshot.val();
         message.key = snapshot.key;
-        if (message === null) {return (this.setState({ messages: [] })) }
+        console.log(snapshot.child("roomId"))
+        console.log(nextProps.activeRoomKey)
+        if (snapshot.child("roomId") !== nextProps.activeRoomKey) {return (this.setState({ messages: [] })) }
         this.setState({ messages:[ message ] });
       });
     }
