@@ -4,18 +4,21 @@ import React, { Component } from 'react';
 class User extends Component {
 
 
+  componentDidMount() {
+    this.props.firebase.auth().onAuthStateChanged( user => {
+      this.props.setUser(user);
+
+    });
+  }
+
   handleSignInClick() {
     const provider = this.props.authenticator
+    //console.log(this.props.firebase.auth())
     this.props.firebase.auth().signInWithPopup( provider ).then(function(result) {
       // This gives you a Google Access Token. You can use it to access the Google API.
       let token = result.credential.accessToken;
       // The signed-in user info.
       let user = result.user;
-
-      //Lift user info to App state
-      this.props.firebase.auth().onAuthStateChanged( user => {
-        this.props.setUser(user);
-      });
 
       }).catch(function(error) {
       // Handle Errors here.
@@ -31,11 +34,6 @@ class User extends Component {
 
   handleSignOutClick() {
     this.props.firebase.auth().signOut().then(function() {
-
-      //Lift user info to App state
-      this.props.firebase.auth().onAuthStateChanged( user => {
-      this.props.setUser(user);
-      });
       // Sign-out successful.
 
     }).catch(function(error) {
@@ -43,7 +41,12 @@ class User extends Component {
     });
   }
 
-
+  checkUser() {
+    if (this.props.userInfo === null) {
+      return "Guest"
+    }
+     this.props.userInfo.displayName;
+  }
 
 
   render() {
@@ -55,6 +58,7 @@ class User extends Component {
       <button onClick ={() => this.handleSignOutClick()}>
         <span>Sign Out</span>
       </button>
+      <h3>Welcome {this.checkUser()}</h3>
     </div>
     );
   }

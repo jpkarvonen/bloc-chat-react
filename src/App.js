@@ -42,7 +42,7 @@ class App extends Component {
    }
 
    setUser(user) {
-     this.setState({userInfo: [user]})
+     this.setState({userInfo: user})
    }
 
   render() {
@@ -62,13 +62,13 @@ class App extends Component {
             firebase={this.state.firebase}
             activeRoomKey={this.state.activeRoomKey}
             onRoomChange={(room) => this.handleRoomChange(room)}
-            user={this.state.userInfo}
+            userInfo={this.state.userInfo}
           />
           <User
             firebase={this.state.firebase}
             authenticator={this.state.authenticator}
             setUser={(user) => this.setUser(user)}
-            user={this.state.userInfo}
+            userInfo={this.state.userInfo}
           />
         </main>
       </div>
