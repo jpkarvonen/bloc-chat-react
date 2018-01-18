@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import * as firebase from 'firebase';
+
 
 class User extends Component {
 
 
   handleSignInClick() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup( provider ).then(function(result) {
+    const provider = this.props.authenticator
+    this.props.firebase.auth().signInWithPopup( provider ).then(function(result) {
       // This gives you a Google Access Token. You can use it to access the Google API.
       let token = result.credential.accessToken;
       // The signed-in user info.
       let user = result.user;
 
       //Lift user info to App state
-      firebase.auth().onAuthStateChanged( user => {
+      this.props.firebase.auth().onAuthStateChanged( user => {
         this.props.setUser(user);
       });
 
@@ -30,10 +30,10 @@ class User extends Component {
     }
 
   handleSignOutClick() {
-    firebase.auth().signOut().then(function() {
+    this.props.firebase.auth().signOut().then(function() {
 
       //Lift user info to App state
-      firebase.auth().onAuthStateChanged( user => {
+      this.props.firebase.auth().onAuthStateChanged( user => {
       this.props.setUser(user);
       });
       // Sign-out successful.
