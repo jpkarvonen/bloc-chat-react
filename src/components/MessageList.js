@@ -20,6 +20,7 @@ class MessageList extends Component {
       const message = snapshot.val();
       message.key = snapshot.key;
       this.setState({ messages: this.state.messages.concat( message ) })
+      this.setState({displayedMessages: this.state.messages.filter(message => (message.roomId === this.props.activeRoomKey))});
     });
   }
 
@@ -32,12 +33,11 @@ class MessageList extends Component {
 
     handleSubmit(e) {
       e.preventDefault();
-      console.log(typeof this.props.firebase.database.ServerValue.TIMESTAMP);
       this.messagesRef.push({
         content: this.state.newMessage,
         roomId: this.props.activeRoomKey,
         sentAt: this.props.firebase.database.ServerValue.TIMESTAMP,
-        username: this.props.userName
+        username: this.props.user ? this.props.user.displayName : 'Guest'
       });
       this.setState({newMessage: ''});
     }
@@ -46,16 +46,10 @@ class MessageList extends Component {
       this.setState( {newMessage: e.target.value })
     }
 
-    /*convertTimeStamp() {
-      const timeStamp = this.props.firebase.database.ServerValue.TIMESTAMP;
-      console.log(this.props.firebase.database.ServerValue.TIMESTAMP);
-      console.log(typeof this.props.firebase.database.ServerValue.TIMESTAMP);
-      const min = Math.floor(timeStamp / 60000).toString();
-      const sec = Math.floor(timeStamp % 60000).toString();
-      if( isNaN(timeStamp) ) {return "-:--"}
-      if (sec.length < 2) {return min + ':0' + sec;}
-      return min + ':' + sec;
-    }*/
+    convertTimeStamp(timeStamp) {
+      const date = new Date ( timeStamp );
+      return date.toLocaleString();
+    }
 
 
 
@@ -78,7 +72,7 @@ class MessageList extends Component {
             <tr className="message">
               <td className="messageusername">{message.username}: </td>
               <td className="message-content">{message.content}</td>
-              <td className="time-stamp">{message.sentAt}</td>
+              <td className="time-stamp">{this.convertTimeStamp(message.sentAt)}</td>
             </tr>
           )}
         </tbody>
