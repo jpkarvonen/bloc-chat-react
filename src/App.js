@@ -30,7 +30,8 @@ class App extends Component {
        firebase: firebase,
        activeRoomKey: '',
        activeRoomName:'',
-       userInfo: []
+       userInfo: [],
+       userName: 'Guest'
      };
    }
 
@@ -42,6 +43,7 @@ class App extends Component {
 
    setUser(user) {
      this.setState({userInfo: user})
+     this.setState({userName: user.displayName})
    }
 
   render() {
@@ -56,18 +58,21 @@ class App extends Component {
             firebase={this.state.firebase}
             activeRoomKey={this.state.activeRoomKey}
             user={this.state.userInfo}
+            userName={this.state.userName}
           />
           <RoomList
             firebase={this.state.firebase}
             activeRoomKey={this.state.activeRoomKey}
             onRoomChange={(room) => this.handleRoomChange(room)}
             userInfo={this.state.userInfo}
+            userName={this.state.userName}
           />
           <User
             firebase={this.state.firebase}
             authenticator={this.state.authenticator}
             setUser={(user) => this.setUser(user)}
             userInfo={this.state.userInfo}
+            userName={this.state.userName}
           />
         </main>
       </div>

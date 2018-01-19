@@ -41,12 +41,12 @@ class User extends Component {
     });
   }
 
-  checkUser() {
+  /*checkUser() {
     if (this.props.userInfo === null) {
       return "Guest"
     }
      this.props.userInfo.displayName;
-  }
+  }*/
 
 
   render() {
@@ -58,7 +58,7 @@ class User extends Component {
       <button onClick ={() => this.handleSignOutClick()}>
         <span>Sign Out</span>
       </button>
-      <h3>Welcome {this.checkUser()}</h3>
+      <h3>Welcome {this.props.userName}</h3>
     </div>
     );
   }
