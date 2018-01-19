@@ -33,6 +33,7 @@ class MessageList extends Component {
 
     handleSubmit(e) {
       e.preventDefault();
+      if (this.props.activeRoomKey === 'none') { alert("Please select a room first."); this.setState({newMessage: ''}); }
       this.messagesRef.push({
         content: this.state.newMessage,
         roomId: this.props.activeRoomKey,
