@@ -12,7 +12,7 @@ class User extends Component {
   }
 
   handleSignInClick() {
-    const provider = this.props.authenticator
+    const provider = new this.props.firebase.auth.GoogleAuthProvider();
     //console.log(this.props.firebase.auth())
     this.props.firebase.auth().signInWithPopup( provider ).then(function(result) {
       // This gives you a Google Access Token. You can use it to access the Google API.

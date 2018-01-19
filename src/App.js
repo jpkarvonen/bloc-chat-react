@@ -20,17 +20,16 @@ import User from './components/User';
     messagingSenderId: "184700416267"
   };
 
-
+firebase.initializeApp(config);
 
 class App extends Component {
 
   constructor(props) {
      super(props);
      this.state = {
-       firebase: firebase.initializeApp(config),
+       firebase: firebase,
        activeRoomKey: '',
        activeRoomName:'',
-       authenticator: new firebase.auth.GoogleAuthProvider(),
        userInfo: []
      };
    }

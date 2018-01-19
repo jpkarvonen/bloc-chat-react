@@ -48,9 +48,7 @@ class RoomList extends Component {
           {this.state.rooms.map( (room, index) =>
             <tr className="room" onClick ={(e) => this.handleRoomClick(room)}>
               <td className="room-number">{index + 1}</td>
-              <button>
-                <td className="room-name">{room.name}</td>
-              </button>
+              <td className="room-name">{room.name}</td>
             </tr>
           )}
         </tbody>
