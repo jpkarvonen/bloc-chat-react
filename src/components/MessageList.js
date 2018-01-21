@@ -16,7 +16,7 @@ class MessageList extends Component {
   }
 
   componentDidMount() {
-    this.messagesRef.on('child_added', snapshot => {
+    this.messagesRef.on('child_changed', snapshot => {
       const message = snapshot.val();
       message.key = snapshot.key;
       this.setState({ messages: this.state.messages.concat( message ) })
@@ -33,7 +33,7 @@ class MessageList extends Component {
 
     handleSubmit(e) {
       e.preventDefault();
-      if (this.props.activeRoomKey === 'none') { alert("Please select a room first."); this.setState({newMessage: ''}); }
+      if (this.props.activeRoomKey === 'none') { alert("Please select a room first."); this.setState({newMessage: ''}); return;}
       this.messagesRef.push({
         content: this.state.newMessage,
         roomId: this.props.activeRoomKey,
@@ -70,7 +70,7 @@ class MessageList extends Component {
         </colgroup>
         <tbody>
           {this.state.displayedMessages.map( (message, index) =>
-            <tr className="message">
+            <tr className="message" key={index}>
               <td className="messageusername">{message.username}: </td>
               <td className="message-content">{message.content}</td>
               <td className="time-stamp">{this.convertTimeStamp(message.sentAt)}</td>
