@@ -16,11 +16,10 @@ class MessageList extends Component {
   }
 
   componentDidMount() {
-    this.messagesRef.on('child_changed', snapshot => {
+    this.messagesRef.on('child_added', snapshot => {
       const message = snapshot.val();
       message.key = snapshot.key;
       this.setState({ messages: this.state.messages.concat( message ) })
-      this.setState({displayedMessages: this.state.messages.filter(message => (message.roomId === this.props.activeRoomKey))});
     });
   }
 
@@ -40,6 +39,12 @@ class MessageList extends Component {
         sentAt: this.props.firebase.database.ServerValue.TIMESTAMP,
         username: this.props.user ? this.props.user.displayName : 'Guest'
       });
+      this.messagesRef.on('child_changed', snapshot => {
+        const message = snapshot.val();
+        message.key = snapshot.key;
+        this.setState({displayedMessages: this.state.messages.filter(message => (message.roomId === this.props.activeRoomKey))});
+      });
+
       this.setState({newMessage: ''});
     }
 
