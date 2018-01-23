@@ -57,6 +57,11 @@ class MessageList extends Component {
       return date.toLocaleString();
     }
 
+    deleteMessage(messageKey) {
+      this.messagesRef.child(messageKey).remove();
+    }
+
+
 
 
   render() {
@@ -79,6 +84,7 @@ class MessageList extends Component {
               <td className="messageusername">{message.username}: </td>
               <td className="message-content">{message.content}</td>
               <td className="time-stamp">{this.convertTimeStamp(message.sentAt)}</td>
+              <td className="delete-message" onClick ={ (e) => this.deleteMessage(message.key) }>X</td>
             </tr>
           )}
         </tbody>
