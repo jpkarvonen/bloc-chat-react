@@ -28,6 +28,11 @@ class RoomList extends Component {
       room.key = snapshot.key;
       this.setState({rooms: this.state.rooms.filter(room => (room.key !== this.props.activeRoomKey))});
     });
+    /*this.roomsRef.on('child_changed', snapshot => {
+      const room = snapshot.val();
+      room.key = snapshot.key;
+      this.setState({rooms: this.state.rooms.filter(room => (room.key !== this.props.activeRoomKey))});
+    });*/
   }
 
   handleSubmit(e) {

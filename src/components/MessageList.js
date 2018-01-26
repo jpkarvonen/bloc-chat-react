@@ -27,8 +27,8 @@ class MessageList extends Component {
     this.messagesRef.on('child_removed', snapshot => {
       const message = snapshot.val();
       message.key = snapshot.key;
-      this.setState({displayedMessages: this.state.displayedMessages.filter(message => (message.key !== this.state.deletedMessageKey))});
-      console.log(this.state.deletedMessageKey);
+      this.setState({displayedMessages: this.state.messages.filter(message => (message.roomId === this.props.activeRoomKey))})
+      console.log(this.state.displayedMessages);
     });
   }
 
