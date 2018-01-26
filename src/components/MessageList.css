@@ -27,3 +27,8 @@
 .submit-message {
   height: 30px;
 }
+
+.delete-message:hover {
+    color: #f1f1f1;
+    cursor: pointer;
+}

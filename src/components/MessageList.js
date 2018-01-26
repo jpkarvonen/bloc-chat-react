@@ -9,7 +9,8 @@ class MessageList extends Component {
       messages: [],
       displayedMessages: [],
       newMessage: '',
-
+      sendMessageDisplay: 'none',
+      deletedMessageKey: ''
     };
 
     this.messagesRef = this.props.firebase.database().ref('messages');
@@ -23,12 +24,19 @@ class MessageList extends Component {
       message.key = snapshot.key;
       this.setState({ messages: this.state.messages.concat( message ) })
     });
+    this.messagesRef.on('child_removed', snapshot => {
+      const message = snapshot.val();
+      message.key = snapshot.key;
+      this.setState({displayedMessages: this.state.displayedMessages.filter(message => (message.key !== this.state.deletedMessageKey))});
+      console.log(this.state.deletedMessageKey);
+    });
   }
 
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.activeRoomKey !== this.props.activeRoomKey) {
       this.setState({displayedMessages: this.state.messages.filter(message => (message.roomId === nextProps.activeRoomKey))})
+      this.checkRoom(nextProps);
       }
     }
 
@@ -60,10 +68,16 @@ class MessageList extends Component {
     }
 
     deleteMessage(messageKey) {
+      this.setState({deletedMessageKey: messageKey})
       this.messagesRef.child(messageKey).remove();
     }
 
-
+    checkRoom(nextProps) {
+      if (nextProps.activeRoomKey !== 'none') {
+        return this.setState({sendMessageDisplay: 'block'})
+      }
+      this.setState({sendMessageDisplay: 'none'})
+    }
 
 
   render() {
@@ -86,9 +100,12 @@ class MessageList extends Component {
           )}
         </tbody>
       </table>
-      <form className="send-message" onSubmit={ (e) => this.handleSubmit(e) }>
-        <input className="message-text" type="text" value={ this.state.newMessage } onChange={ (e) => this.handleChange(e) } />
-        <input className="submit-message" type="submit" value="Send" />
+      <form
+        className="send-message"
+        style={{display: this.state.sendMessageDisplay}}
+        onSubmit={ (e) => this.handleSubmit(e) }>
+          <input className="message-text" type="text" value={ this.state.newMessage } onChange={ (e) => this.handleChange(e) } />
+          <input className="submit-message" type="submit" value="Send" />
       </form>
     </div>
     );

@@ -10,6 +10,7 @@ class RoomList extends Component {
       newRoomName: '',
       changedRoomName: '',
       modalDisplay: 'none',
+      deleteDisplay: 'none'
     };
 
     this.roomsRef = this.props.firebase.database().ref('rooms');
@@ -93,7 +94,7 @@ class RoomList extends Component {
               <tr className="room" key={index} onClick ={ (e) => this.handleRoomClick(room) }>
                 <td className="room-number">{index + 1}</td>
                 <td className="room-name">{room.name}</td>
-                </tr>
+              </tr>
               )}
           </tbody>
         </table>
