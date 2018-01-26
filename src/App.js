@@ -28,7 +28,7 @@ class App extends Component {
      this.state = {
        firebase: firebase,
        activeRoomKey: 'none',
-       activeRoomName:'Please select a Room',
+       activeRoomName:'Nowhere! Select a room, please.',
        user: null
      };
    }
@@ -43,12 +43,19 @@ class App extends Component {
      this.setState({user: user})
    }
 
+   checkUser() {
+     if (!this.state.user) {
+       return "Guest"
+     }
+      return this.state.user.displayName;
+   }
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Bloc Chat!</h1>
-          <h2 className="Active-Room">You are chatting in: {this.state.activeRoomName}</h2>
+          <h4 className="Active-Room">{this.checkUser()}, you are chatting in: {this.state.activeRoomName}</h4>
         </header>
         <main>
           <MessageList

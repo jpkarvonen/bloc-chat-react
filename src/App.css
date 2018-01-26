@@ -3,12 +3,30 @@
 }
 
 .App-header {
-  background-color: #222;
-  height: 150px;
+  background-color: #111;
+  height: 100px;
   padding: 20px;
-  color: white;
+  color: #818181;
 }
 
 .App-title {
   font-size: 1.5em;
+}
+
+
+.sidebar {
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+    width: 160px; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    /*z-index: 1; /* Stay on top */
+    left: 0;
+    background-color: #111; /* Black */
+    padding-top: 20px;
+    display: block;
+}
+
+html,body {
+  height:100%;
+  min-height:100%;
+  max-height:100%;
 }

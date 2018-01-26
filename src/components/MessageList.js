@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './MessageList.css';
 
 class MessageList extends Component {
   constructor(props) {
@@ -8,6 +9,7 @@ class MessageList extends Component {
       messages: [],
       displayedMessages: [],
       newMessage: '',
+
     };
 
     this.messagesRef = this.props.firebase.database().ref('messages');
@@ -66,12 +68,7 @@ class MessageList extends Component {
 
   render() {
     return (
-    <div>
-      <h2>Messages</h2>
-      <form className="send-message" onSubmit={ (e) => this.handleSubmit(e) }>
-        <input type="text" value={ this.state.newMessage } onChange={ (e) => this.handleChange(e) } />
-        <input type="submit" value="Send" />
-      </form>
+    <div className="messages">
       <table className="message-list">
         <colgroup>
           <col id="message-number-col"/>
@@ -80,7 +77,7 @@ class MessageList extends Component {
         </colgroup>
         <tbody>
           {this.state.displayedMessages.map( (message, index) =>
-            <tr className="message" key={index}>
+            <tr key={index}>
               <td className="messageusername">{message.username}: </td>
               <td className="message-content">{message.content}</td>
               <td className="time-stamp">{this.convertTimeStamp(message.sentAt)}</td>
@@ -89,6 +86,10 @@ class MessageList extends Component {
           )}
         </tbody>
       </table>
+      <form className="send-message" onSubmit={ (e) => this.handleSubmit(e) }>
+        <input className="message-text" type="text" value={ this.state.newMessage } onChange={ (e) => this.handleChange(e) } />
+        <input className="submit-message" type="submit" value="Send" />
+      </form>
     </div>
     );
   }

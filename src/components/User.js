@@ -13,7 +13,7 @@ class User extends Component {
 
   handleSignInClick() {
     const provider = new this.props.firebase.auth.GoogleAuthProvider();
-    
+
     this.props.firebase.auth().signInWithPopup( provider ).then(function(result) {
       // This gives you a Google Access Token. You can use it to access the Google API.
       //let token = result.credential.accessToken;
@@ -41,12 +41,7 @@ class User extends Component {
     });
   }
 
-  checkUser() {
-    if (!this.props.user) {
-      return "Guest"
-    }
-     return this.props.user.displayName;
-  }
+
 
 
   render() {
@@ -58,7 +53,6 @@ class User extends Component {
       <button onClick ={() => this.handleSignOutClick()}>
         <span>Sign Out</span>
       </button>
-      <h3>Welcome {this.checkUser()}</h3>
     </div>
     );
   }

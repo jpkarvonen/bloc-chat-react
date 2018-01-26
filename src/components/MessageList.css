@@ -1,0 +1,29 @@
+.message-list {
+  display: inline-block;
+  width: auto;
+  padding: 50px 20px;
+}
+
+
+.messages {
+  width: 90%;
+  height: 590px;
+  float: right;
+  position: relative;
+}
+
+.send-message {
+  position: absolute;
+  bottom: 0;
+  margin: auto;
+}
+
+.message-text {
+  margin-right: calc(45% - 50vw);
+  width: 80vw;
+}
+
+.message-text,
+.submit-message {
+  height: 30px;
+}
