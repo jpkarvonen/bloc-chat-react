@@ -19,25 +19,34 @@ class MessageList extends Component {
   }
 
   componentDidMount() {
+
     this.messagesRef.on('child_added', snapshot => {
       const message = snapshot.val();
       message.key = snapshot.key;
-      this.setState({ messages: this.state.messages.concat( message ) })
+      this.setState({ messages: this.state.messages.concat( message ) }, () => {
+        this.updateDisplayedMessages(this.props.activeRoomKey);
+      });
     });
+
     this.messagesRef.on('child_removed', snapshot => {
-      const message = snapshot.val();
-      message.key = snapshot.key;
-      this.setState({displayedMessages: this.state.messages.filter(message => (message.roomId === this.props.activeRoomKey))})
-      console.log(this.state.displayedMessages);
+      const removed = snapshot.val();
+      const removedKey = snapshot.key;
+      this.setState({messages: this.state.messages.filter(message => (message.key !== removedKey))}, () => {
+        this.updateDisplayedMessages(this.props.activeRoomKey);
+      });
     });
+
   }
 
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.activeRoomKey !== this.props.activeRoomKey) {
-      this.setState({displayedMessages: this.state.messages.filter(message => (message.roomId === nextProps.activeRoomKey))})
-      this.checkRoom(nextProps);
+      this.updateDisplayedMessages(nextProps.activeRoomKey);
       }
+    }
+
+    updateDisplayedMessages(key) {
+        this.setState({displayedMessages: this.state.messages.filter(message => (message.roomId === key ))});
     }
 
     handleSubmit(e) {
@@ -68,16 +77,10 @@ class MessageList extends Component {
     }
 
     deleteMessage(messageKey) {
-      this.setState({deletedMessageKey: messageKey})
       this.messagesRef.child(messageKey).remove();
     }
 
-    checkRoom(nextProps) {
-      if (nextProps.activeRoomKey !== 'none') {
-        return this.setState({sendMessageDisplay: 'block'})
-      }
-      this.setState({sendMessageDisplay: 'none'})
-    }
+
 
 
   render() {
@@ -100,13 +103,15 @@ class MessageList extends Component {
           )}
         </tbody>
       </table>
-      <form
-        className="send-message"
-        style={{display: this.state.sendMessageDisplay}}
-        onSubmit={ (e) => this.handleSubmit(e) }>
-          <input className="message-text" type="text" value={ this.state.newMessage } onChange={ (e) => this.handleChange(e) } />
-          <input className="submit-message" type="submit" value="Send" />
-      </form>
+      {
+        this.props.activeRoomKey &&
+        <form
+          className="send-message"
+          onSubmit={ (e) => this.handleSubmit(e) }>
+            <input className="message-text" type="text" value={ this.state.newMessage } onChange={ (e) => this.handleChange(e) } />
+            <input className="submit-message" type="submit" value="Send" />
+        </form>
+      }
     </div>
     );
   }

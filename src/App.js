@@ -27,7 +27,7 @@ class App extends Component {
      super(props);
      this.state = {
        firebase: firebase,
-       activeRoomKey: 'none',
+       activeRoomKey: null,
        activeRoomName:'Nowhere! Select a room, please.',
        user: null
      };
